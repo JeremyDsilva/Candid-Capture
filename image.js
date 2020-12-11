@@ -36,7 +36,7 @@ router.get("/image/date/:date", async (req, res) => {
         }
         else {
 
-            const url = "localHost:3000/image/"
+            const url = "http://localHost:3000/image/"
 
             for (let i = 0; i < photoIdArray.length; ++i) {
                 response.message.push(url + photoIdArray[i]._id);
