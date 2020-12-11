@@ -20,7 +20,7 @@ app.use(express.static(__dirname + '/views'));
 var websiteRoutes = require('./web')
 var imageRoutes = require('./image');
 app.use('/', imageRoutes);
-app.use('/web', websiteRoutes)
+app.use('/', websiteRoutes)
 // app.use('/web', websiteRoutes);
 
 app.listen(3000, () =>

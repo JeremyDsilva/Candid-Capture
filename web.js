@@ -77,12 +77,12 @@ var sessionChecker = (req, res, next) => {
 // });
 
 
-router.get('/home', (req,res) =>{
-    res.sendFile(__dirname, '/views/webpages/home.html')
+router.get('/', (req,res) =>{
+    res.sendFile(__dirname + '/views/webpages/home.html')
 })
 
 //login page
-router.route('/login').get(sessionChecker, (req, res) => {
+router.route('/login').get((req, res) => {
     //who does only this work and no /login
     res.sendFile(__dirname + '/views/webpages/login.html');
 }).post(async (req, res) => {
@@ -122,8 +122,8 @@ router.route('/login').get(sessionChecker, (req, res) => {
 });
 
 //registration page
-router.route('/registration').get(sessionChecker, (req, res) => {
-    res.sendFile(__dirname + '/views/registration.html');
+router.route('/registration').get((req, res) => {
+    res.sendFile(__dirname + '/views/webpages/registration.html');
 })
     .post((req, res) => {
         console.log("here")
@@ -147,13 +147,13 @@ router.route('/registration').get(sessionChecker, (req, res) => {
 
 //contact us
 router.route('/contact').get((req, res) => {
-    res.sendFile(__dirname + '/views/contact-us.html');
+    res.sendFile(__dirname + '/views/webpages/contact-us.html');
 });
 
 //get all photos from database
 //should this change the return object
 router.get("/photos", async (req, res) => {
-    Images.find(function (err, photo_list) {
+    Images.find({}).sort({date: -1}).exec((err, photo_list) => {
         if (err) {
             console.log(err);
             return handleError(err);
