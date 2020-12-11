@@ -1,17 +1,26 @@
-var width = 720;
-var height = 0;
 
-var streaming = false;
 
-var video = null;
-var canvas = null;
-var tinyFaceDetector = null;
+$(document).ready(function () {
+  var canvas = document.getElementById('canvas');
+  console.log('start');
+  faceDetectionStartup();
+  phraseDetectionStartup();
+})
 
-function startup() {
+function postImage() {
+  console.log('Posting image...');
+  $.post('http://localHost:3000/image', canvas.toDataURL('image/png'));
+}
+
+function faceDetectionStartup() {
+  var streaming = false;
+
+  var tinyFaceDetector = null;
+
+  var width = 720;
+  var height = 0;
 
   const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-
   var streaming = false;
 
   var context;
@@ -26,11 +35,11 @@ function startup() {
     navigator.getWebcam = (navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
     if (navigator.mediaDevices.getUserMedia)
-      navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+      navigator.mediaDevices.getUserMedia({ audio: false, video: true })
         .then((stream) => video.srcObject = stream)
         .catch((e) => console.log);
     else
-      navigator.getWebcam({ audio: true, video: true }, (stream) => video.srcObject = stream, () => logError("Web cam is not accessible."));
+      navigator.getWebcam({ audio: false, video: true }, (stream) => video.srcObject = stream, () => logError("Web cam is not accessible."));
 
     tinyFaceDetector = new faceapi.TinyFaceDetectorOptions();
   })
@@ -59,10 +68,9 @@ function startup() {
         const detections = await faceapi.detectAllFaces(video, tinyFaceDetector).withFaceLandmarks().withFaceExpressions();
         context.drawImage(video, 0, 0, width, height);
 
-        for (let i = 0; i < detections.length; ++i) 
+        for (let i = 0; i < detections.length; ++i)
           if (detections[i].expressions.happy > 0.8) {
-            console.log('Posting image...');
-            $.post('http://localHost:3000/image', canvas.toDataURL('image/png'));
+            postImage();
             break;
           }
 
@@ -70,5 +78,55 @@ function startup() {
 
     }
   }, false);
+
+}
+
+function phraseDetectionStartup() {
+
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+  var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+  var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+  const phrase = 'take a picture';
+  var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase + ';';
+
+  var recognition = new SpeechRecognition();
+  var speechRecognitionList = new SpeechGrammarList();
+  speechRecognitionList.addFromString(grammar, 1);
+  recognition.grammars = speechRecognitionList;
+  recognition.continuous = false;
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  var bg = document.querySelector('html');
+
+  recognition.onresult = function (event) {
+    var phraseRecieved = event.results[0][0].transcript;
+    console.log('Result received: ' + phraseRecieved + '.');
+
+    if (phraseRecieved == phrase) {
+      postImage();
+    }
+
+    console.log('Confidence: ' + event.results[0][0].confidence);
+  }
+
+  recognition.onspeechend = function () {
+    recognition.stop();
+    setTimeout(async () => { recognition.start() }, 2000);
+  }
+
+  recognition.onnomatch = function (event) {
+    console.log("I didn't recognise that color.");
+    setTimeout(async () => { recognition.start() }, 2000);
+  }
+
+  recognition.onerror = function (event) {
+    console.log('Error occurred in recognition: ' + event.error);
+    setTimeout(async () => { recognition.start() }, 2000);
+  }
+
+  recognition.start();
 
 }
