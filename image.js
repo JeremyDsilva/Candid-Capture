@@ -1,8 +1,10 @@
 var express = require("express");
+var mqtt = require('mqtt')
 
 const router = express.Router();
 
 const Image = require('./models/Images')
+
 
 /**
   _____                                 
@@ -15,6 +17,20 @@ const Image = require('./models/Images')
                         |___/           
  
  **/
+
+
+var client = mqtt.connect('mqtt://localhost:1883')
+
+
+client.on('connect', function () {
+    client.subscribe('candid', function (err) {
+        if (err)
+            console.log(err);
+        else
+            console.log('connected to mqtt succesffully')
+    })
+});
+
 
 //get id of photos
 router.get("/image/date/:date", async (req, res) => {
@@ -89,8 +105,16 @@ router.post("/image", function (req, res, next) {
         image: Buffer.from(req.rawBody.replace('data:image/png;base64,', ''), 'base64')
     });
 
-    image.save().then( async () => res.send({"status" : "success"}));
+    image.save().then( async () => {res.send({"status" : "success"});
+    client.publish("candid", "new pic");
+    console.log('publish')
+});
+
+    
 
 });
 
 module.exports = router;
+
+
+
