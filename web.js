@@ -4,7 +4,6 @@ var cookieParser = require("cookie-parser");
 var session = require("express-session");
 
 const User = require('./models/User')
-const Config = require('./models/Config')
 const Images = require('./models/Images')
 
 const router = express.Router();

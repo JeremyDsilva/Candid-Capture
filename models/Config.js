@@ -4,11 +4,16 @@ mongoose.connect('mongodb://localhost:27017/CandidCapture', { useNewUrlParser: t
 
 
 const configSchema = new mongoose.Schema({
-    frequency: {
+    
+    cam_state: {
+        type: Boolean,
+        required: true
+    },
+    cam_freq: {
         type: Number,
         required: true
     },
-    start_time: {
+   start_time: {
         type: Date,
         required: true
     },
@@ -16,7 +21,7 @@ const configSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    music: {
+    album: {
         type: String
     }
 })
