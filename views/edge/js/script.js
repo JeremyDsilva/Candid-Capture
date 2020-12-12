@@ -3,8 +3,25 @@
 $(document).ready(function () {
   var canvas = document.getElementById('canvas');
   console.log('start');
-  faceDetectionStartup();
-  phraseDetectionStartup();
+
+  /**
+   *  write ajax call save config in a variable 
+   * 
+   */
+
+
+   // goes within call back of ajax call
+
+  // start time 
+  if (true){
+    faceDetectionStartup();
+    phraseDetectionStartup();
+    // refresh page when end time 
+  } else  {
+  // start time refresh the page
+  }
+
+
 })
 
 function postImage() {
@@ -137,3 +154,9 @@ function phraseDetectionStartup() {
   recognition.start();
 
 }
+
+/**
+ * 
+ *  Configure mqtt to refresh when message is recieved  
+ * 
+ */
