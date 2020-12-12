@@ -65,6 +65,13 @@ function faceDetectionStartup() {
 
       setInterval(async () => {
         console.log('Evaluting...')
+
+        // if there is a measure blur dont compute 
+        var blur = measureBlur(context.getImageData(0, 0, width, height)).avg_edge_width_perc;
+
+        if (1 < blur)
+          return;
+
         const detections = await faceapi.detectAllFaces(video, tinyFaceDetector).withFaceLandmarks().withFaceExpressions();
         context.drawImage(video, 0, 0, width, height);
 
