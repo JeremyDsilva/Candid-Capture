@@ -1,14 +1,11 @@
 var express = require('express');
 var mongoose = require('mongoose')
 
-
-mongoose.connect('mongodb://localhost:27017/CandidCapture', { useNewUrlParser: true, useUnifiedTopology: true });
-
 const Config = require('./models/Config')
 
-var app = express();
+const router = express.Router();
 
-app.post("/", function (req, res, next) {
+router.post("/", function (req, res, next) {
     var data = "";
     req.on('data', function (chunk) { data += chunk })
     req.on('end', function () {
@@ -19,7 +16,7 @@ app.post("/", function (req, res, next) {
     console.log(req.body)
 });
 
-app.get("/play_song", (req, res) =>{
+router.get("/play_song", (req, res) =>{
     var id =   'spotify:playlist:37i9dQZF1DX3rxVfibe1L0'
     //get from database
 
@@ -36,8 +33,22 @@ app.get("/play_song", (req, res) =>{
     });
 });
 
+router.get("/get_config", (req, res) =>{
+    //get from database
 
-app.post('/save_config', async(req, res)=>{
+    Config.find().limit(1).exec((err, conf) => {
+        if (err) {
+            console.log(err);
+            return handleError(err);
+        }
+        else {
+           res.send(conf[0]);
+        }
+    });
+});
+
+
+router.post('/save_config', async(req, res)=>{
 
  //delete all records
  Config.deleteMany({}).then(function(){ 
@@ -71,6 +82,4 @@ app.post('/save_config', async(req, res)=>{
 })
 
 
-app.listen(3000, () =>
-    console.log(`App started on port ${app.get("port")}`)
-);
+module.exports = router;

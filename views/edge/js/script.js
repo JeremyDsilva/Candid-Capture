@@ -1,28 +1,63 @@
 
+var cam_state, cam_freq, start_time, end_time;
 
 $(document).ready(function () {
   var canvas = document.getElementById('canvas');
   console.log('start');
+
+  var load_time = 
+  load_time = load_time.getHours()+':'+load_time.getMinutes()+':'+load_time.getSeconds();
+
+
+//   var cdate = new Date() 
+// undefined
+// var ddate = new Date(
+//     cdate.getUTCFullYear(),
+//     cdate.getUTCMonth(),
+//     cdate.getUTCDate(),
+//     0,
+//     0, 
+//     0
+//   ).getTime(); 
+// undefined
+// (cdate - ddate)
+// 96707438
+// (cdate - ddate)/1000
 
   /**
    *  write ajax call save config in a variable 
    * 
    */
 
+  $.get("/get_config", function (data) {
+
+    cam_state = data.cam_state
+    cam_freq = data.cam_freq
+    start_time = data.start_time
+    end_time = data.end_time
+
+    console.log(data)
+
+    //if within on time
+    if (load_time>=start_time && load_time<end_time && cam_state){
+      faceDetectionStartup();
+      phraseDetectionStartup();
+      // refresh page when end time 
+    } else  {
+    // start time refresh the page
+    }
+
+  });
+
+  console.log(load_time);
 
    // goes within call back of ajax call
 
   // start time 
-  if (true){
-    faceDetectionStartup();
-    phraseDetectionStartup();
-    // refresh page when end time 
-  } else  {
-  // start time refresh the page
-  }
+ 
 
 
-})
+});
 
 function postImage() {
   console.log('Posting image...');
@@ -98,7 +133,7 @@ function faceDetectionStartup() {
             break;
           }
 
-      }, 1000)
+      }, 10000)
 
     }
   }, false);
