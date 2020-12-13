@@ -19,8 +19,10 @@ app.use(express.static(__dirname + '/views'));
 
 var websiteRoutes = require('./web')
 var imageRoutes = require('./image');
+var configRoutes = require('./config')
 app.use('/', imageRoutes);
-app.use('/', websiteRoutes)
+app.use('/', websiteRoutes);
+app.use('/', configRoutes);
 // app.use('/web', websiteRoutes);
 
 app.listen(3000, () =>

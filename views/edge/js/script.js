@@ -1,38 +1,82 @@
 
+var cam_state, cam_freq, start_time, end_time;
+var load_time;
+
+function getTimeDifference(time) {
+
+  var utc_time = new Date(
+    time.getUTCFullYear(),
+    time.getUTCMonth(),
+    time.getUTCDate(),
+    0,
+    0,
+    0
+  ).getTime();
+
+  return parseInt((time - utc_time) / 1000, 10);
+}
 
 $(document).ready(function () {
   var canvas = document.getElementById('canvas');
   console.log('start');
-
   /**
    *  write ajax call save config in a variable 
    * 
    */
 
+  $.get("/config", function (data) {
+
+
+    // might need to parse
+
+    cam_state = data.cam_state
+    cam_freq = data.cam_freq
+    start_time = new Date(data.start_time)
+    end_time = new Date(data.end_time)
+
+    console.log(data)
+
+    startDifference = getTimeDifference(start_time);
+    endDifference = getTimeDifference(end_time);
+
+    // if camera on
+    if (cam_state) {
+      //if within on time
+      if (0 < startDifference && end_time < 0 && cam_state) {
+        try {
+
+          faceDetectionStartup();
+        } catch (error) {
+
+        }
+        try {
+          phraseDetectionStartup();
+        } catch (error) {
+
+        }
+      } else {
+        setInterval(async => location.reload(), start_time * 1000) // reload page without hitting the server
+      }
+
+    }
+
+  });
+
+  console.log(load_time);
 
   // goes within call back of ajax call
 
   // start time 
   if (true) {
 
-    try {
 
-      faceDetectionStartup();
-    } catch (error) {
-
-    }
-    try {
-      phraseDetectionStartup();
-    } catch (error) {
-
-    }
     // refresh page when end time 
   } else {
     // start time refresh the page
   }
 
 
-})
+});
 
 function postImage() {
   console.log('Posting image...');
@@ -108,7 +152,7 @@ function faceDetectionStartup() {
             break;
           }
 
-      }, 1000)
+      }, cam_freq * 1000)
 
     }
   }, false);
@@ -170,3 +214,5 @@ function phraseDetectionStartup() {
  *  Configure mqtt to refresh when message is recieved
  *
  */
+
+ //       location.reload()
