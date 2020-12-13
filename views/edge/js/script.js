@@ -1,28 +1,30 @@
 
 var cam_state, cam_freq, start_time, end_time;
+var load_time;
+
+
+function get_Time(time){
+  
+  var utc_time = new Date(
+    time.getUTCFullYear(),
+    time.getUTCMonth(),
+    time.getUTCDate(),
+    0,
+    0, 
+    0
+  ).getTime(); 
+
+var temp = (time - utc_time)/1000
+
+return temp
+}
 
 $(document).ready(function () {
   var canvas = document.getElementById('canvas');
   console.log('start');
 
-  var load_time = 
-  load_time = load_time.getHours()+':'+load_time.getMinutes()+':'+load_time.getSeconds();
 
-
-//   var cdate = new Date() 
-// undefined
-// var ddate = new Date(
-//     cdate.getUTCFullYear(),
-//     cdate.getUTCMonth(),
-//     cdate.getUTCDate(),
-//     0,
-//     0, 
-//     0
-//   ).getTime(); 
-// undefined
-// (cdate - ddate)
-// 96707438
-// (cdate - ddate)/1000
+  load_time = get_Time(new Date())
 
   /**
    *  write ajax call save config in a variable 
@@ -38,14 +40,20 @@ $(document).ready(function () {
 
     console.log(data)
 
+    start_time()
+
+    start_time = get_Time(start_time);
+    end_time = get_Time(end_time);
+
     //if within on time
-    if (load_time>=start_time && load_time<end_time && cam_state){
-      faceDetectionStartup();
-      phraseDetectionStartup();
-      // refresh page when end time 
+    if (load_time>=start_time && load_time<end_time && cam_state){  
+        faceDetectionStartup();
+        phraseDetectionStartup(); 
     } else  {
     // start time refresh the page
+     // location.reload()
     }
+
 
   });
 
