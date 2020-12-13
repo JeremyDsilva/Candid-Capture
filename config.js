@@ -1,20 +1,24 @@
 var express = require('express');
 var mongoose = require('mongoose')
+var mqtt = require('mqtt')
 
 const Config = require('./models/Config')
 
 const router = express.Router();
 
-// router.post("/", function (req, res, next) {
-//     var data = "";
-//     req.on('data', function (chunk) { data += chunk })
-//     req.on('end', function () {
-//         req.body = JSON.parse(data);
-//         next();
-//     })
-// }, function (req, res) {
-//     console.log(req.body)
-// });
+var client = mqtt.connect('mqtt://localhost:1883')
+
+
+client.on('connect', function () {
+    client.subscribe('config', function (err) {
+        if (err)
+            console.log(err);
+        else
+            console.log('connected to mqtt succesffully 2')
+    })
+});
+
+
 
 router.get("/play_song", (req, res) => {
     var id = 'spotify:playlist:37i9dQZF1DX3rxVfibe1L0'
@@ -48,39 +52,42 @@ router.get("/config", (req, res) => {
 });
 
 
-router.post('/config', async (req, res) => {
+router.post('/config', function (req, res, next) {
+    var data = "";
+    req.on('data', function (chunk) { data += chunk })
+    req.on('end', function () {
+        req.body = JSON.parse(data);
+        next();
+    })
+},async (req, res) => {
 
     //delete all records
     Config.deleteMany({}).then(function () {
         console.log("Data deleted"); // Success 
-
-    }).catch(function (error) {
-        console.log(error); // Failure 
-    });
-
-    //add new config
-    Config({
-
-        cam_state: true,
-        cam_freq: 10,
-        start_time: 32400,
-        end_time: 48000,
-        album: 'spotify:playlist:37i9dQZF1DX3rxVfibe1L0',
-        // cam_state: req.body.cam_state,
-        // cam_freq: req.body.cam_freq,
-        // start_time: req.body.start_time,
-        // end_time: req.body.end_time,
-        // album: req.body.album,
+          //add new config
+          console.log(req.body.cam_state);
+    
+          Config({
+        cam_state: req.body.cam_state,
+        cam_freq: req.body.cam_freq,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        album: req.body.album,
     }).save((err) => {
         if (err) {
             console.log(err);
             return handleError(err);
         } else {
             console.log("successfully saved config")
+            client.publish("config", "new configuration added");
             res.send();
         }
     });
-})
+
+    }).catch(function (error) {
+        console.log(error); // Failure 
+    });
+});
 
 
 module.exports = router;

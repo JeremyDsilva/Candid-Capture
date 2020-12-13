@@ -1,19 +1,9 @@
 
-var cam_state, cam_freq, start_time, end_time;
-var load_time;
+var cam_state, cam_freq;
 
 function getTimeDifference(time) {
 
-  var utc_time = new Date(
-    time.getUTCFullYear(),
-    time.getUTCMonth(),
-    time.getUTCDate(),
-    0,
-    0,
-    0
-  ).getTime();
-
-  return parseInt((time - utc_time) / 1000, 10);
+  return parseInt((time - new Date()) / 1000, 10);
 }
 
 $(document).ready(function () {
@@ -39,10 +29,15 @@ $(document).ready(function () {
     startDifference = getTimeDifference(start_time);
     endDifference = getTimeDifference(end_time);
 
+    try {
+      console.log(new Date(startDifference).getTime())
+      console.log(new Date(endDifference).getTime())
+    } catch (error) { }
+
     // if camera on
     if (cam_state) {
       //if within on time
-      if (0 < startDifference && end_time < 0 && cam_state) {
+      if (0 < startDifference && endDifference < 0 && cam_state) {
         try {
 
           faceDetectionStartup();
@@ -55,14 +50,12 @@ $(document).ready(function () {
 
         }
       } else {
-        setInterval(async => location.reload(), start_time * 1000) // reload page without hitting the server
+        setInterval(async => location.reload(), -1 * start_time * 1000) // reload page without hitting the server
       }
 
     }
 
   });
-
-  console.log(load_time);
 
   // goes within call back of ajax call
 
@@ -81,6 +74,11 @@ $(document).ready(function () {
 function postImage() {
   console.log('Posting image...');
   $.post('/image', canvas.toDataURL('image/png'));
+}
+
+function playSong(){
+  console.log('Play song because im sad');
+  $.post('/play_song');
 }
 
 function faceDetectionStartup() {
@@ -149,6 +147,10 @@ function faceDetectionStartup() {
         for (let i = 0; i < detections.length; ++i)
           if (detections[i].expressions.happy > 0.8) {
             postImage();
+            break;
+          }
+          else if(detections[i].expressions.sad > 0.8){
+            playSong();
             break;
           }
 
