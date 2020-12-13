@@ -59,30 +59,30 @@ router.post('/config', function (req, res, next) {
         req.body = JSON.parse(data);
         next();
     })
-},async (req, res) => {
+}, async (req, res) => {
 
     //delete all records
     Config.deleteMany({}).then(function () {
         console.log("Data deleted"); // Success 
-          //add new config
-          console.log(req.body.cam_state);
-    
-          Config({
-        cam_state: req.body.cam_state,
-        cam_freq: req.body.cam_freq,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time,
-        album: req.body.album,
-    }).save((err) => {
-        if (err) {
-            console.log(err);
-            return handleError(err);
-        } else {
-            console.log("successfully saved config")
-            client.publish("config", "new configuration added");
-            res.send();
-        }
-    });
+        //add new config
+        console.log(req.body.cam_state);
+
+        Config({
+            cam_state: req.body.cam_state,
+            cam_freq: req.body.cam_freq,
+            start_time: req.body.start_time,
+            end_time: req.body.end_time,
+            album: req.body.album,
+        }).save((err) => {
+            if (err) {
+                console.log(err);
+                return handleError(err);
+            } else {
+                console.log("successfully saved config")
+                client.publish("config", "new configuration added");
+                res.send();
+            }
+        });
 
     }).catch(function (error) {
         console.log(error); // Failure 
