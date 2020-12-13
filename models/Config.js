@@ -14,11 +14,11 @@ const configSchema = new mongoose.Schema({
         required: true
     },
    start_time: {
-        type: Date,
+        type: Number,
         required: true
     },
     end_time: {
-        type: Date,
+        type: Number,
         required: true
     },
     album: {

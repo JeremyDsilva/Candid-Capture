@@ -3,7 +3,7 @@ var cam_state, cam_freq;
 
 function getTimeDifference(time) {
 
-  return parseInt((time - new Date()) / 1000, 10);
+  return 
 }
 
 $(document).ready(function () {
@@ -17,27 +17,26 @@ $(document).ready(function () {
   $.get("/config", function (data) {
 
 
-    // might need to parse
+    //get todays time
+
+    var load_time = new Date()
+    load_time = (load_time.getHours()*60) + load_time.getMinutes();
 
     cam_state = data.cam_state
     cam_freq = data.cam_freq
-    start_time = new Date(data.start_time)
-    end_time = new Date(data.end_time)
+    start_time = data.start_time
+    end_time = data.end_time
 
     console.log(data)
 
     startDifference = getTimeDifference(start_time);
     endDifference = getTimeDifference(end_time);
 
-    try {
-      console.log(new Date(startDifference).getTime())
-      console.log(new Date(endDifference).getTime())
-    } catch (error) { }
-
     // if camera on
     if (cam_state) {
       //if within on time
-      if (0 < startDifference && endDifference < 0 && cam_state) {
+
+      if (start_time <= load_time && end_time > load_time && cam_state) {
         try {
 
           faceDetectionStartup();
@@ -50,7 +49,7 @@ $(document).ready(function () {
 
         }
       } else {
-        setInterval(async => location.reload(), -1 * start_time * 1000) // reload page without hitting the server
+        setInterval(async => location.reload(), (1440 + start_time) * 1000); // reload page without hitting the server
       }
 
     }
@@ -78,7 +77,7 @@ function postImage() {
 
 function playSong(){
   console.log('Play song because im sad');
-  $.post('/play_song');
+  $.get('/play_song');
 }
 
 function faceDetectionStartup() {
@@ -154,7 +153,7 @@ function faceDetectionStartup() {
             break;
           }
 
-      }, cam_freq * 1000)
+      },cam_freq * 1000)
 
     }
   }, false);

@@ -14,29 +14,29 @@ const router = express.Router();
 var rememberBox = false;
 
 
-// app.use(bodyParser.urlencoded({ extended: true }))
+router.use(bodyParser.urlencoded({ extended: true }))
 
-// app.use(cookieParser());
+router.use(cookieParser());
 
-// app.use(
-//     session({
-//         key: 'user_sid',
-//         secret: "thisIsSecret",
-//         resave: true,
-//         saveUninitialized: true
-//     })
-// );
+router.use(
+    session({
+        key: 'user_sid',
+        secret: "thisIsSecret",
+        resave: true,
+        saveUninitialized: true
+    })
+);
 
 
 router.use(express.static(__dirname + '/webpages'));
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
-// app.use((req, res, next) => {
-//     if (req.cookies.user_sid && !req.session.user) {
-//         res.clearCookie("user_sid");
-//     }
-//     next();
-// });
+router.use((req, res, next) => {
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie("user_sid");
+    }
+    next();
+});
 
 
 var sessionChecker = (req, res, next) => {
@@ -59,21 +59,21 @@ var sessionChecker = (req, res, next) => {
 //         });
 //     });
 
-// router.get("/session_info", (req, res) => {
-//     var user_info = {
-//         username: "",
-//         email: "",
-//         remember: false,
-//         last_time: ""
-//     };
+router.get("/session_info", (req, res) => {
+    var user_info = {
+        username: "",
+        email: "",
+        remember: false,
+        last_time: ""
+    };
 
-//     if (req.session.user && req.cookies.user_sid) {
-//         user_info.username = req.session.user.username
-//         user_info.remember = req.session.remember;
-//         user_info.email = req.session.user.email;
-//     }
-//     res.send(user_info);
-// });
+    if (req.session.user && req.cookies.user_sid) {
+        user_info.username = req.session.user.username
+        user_info.remember = req.session.remember;
+        user_info.email = req.session.user.email;
+    }
+    res.send(user_info);
+});
 
 
 router.get('/', (req,res) =>{
@@ -81,11 +81,12 @@ router.get('/', (req,res) =>{
 })
 
 //login page
-router.route('/login').get((req, res) => {
+router.route('/login').get(sessionChecker,(req, res) => {
     //who does only this work and no /login
     res.sendFile(__dirname + '/views/webpages/login.html');
 }).post(async (req, res) => {
 
+console.log(req.body.password);
 
     var email = req.body.email,
         password = req.body.password,
@@ -101,7 +102,7 @@ router.route('/login').get((req, res) => {
     }
 
     try {
-        var user = await User.findOne({ email: email }).exec();
+        const user = await User.findOne({ email: email }).exec();
         if (!user) {
             res.redirect("/login");
         }
@@ -121,7 +122,7 @@ router.route('/login').get((req, res) => {
 });
 
 //registration page
-router.route('/registration').get((req, res) => {
+router.route('/registration').get(sessionChecker,(req, res) => {
     res.sendFile(__dirname + '/views/webpages/registration.html');
 })
     .post((req, res) => {
@@ -163,50 +164,6 @@ router.get("/photos", async (req, res) => {
         }
     });
 });
-
-// //get id of photos
-// app.get("/new_photos_id/:date", async (req, res) => {
-//     //get new images ids after x date
-//     var xdate = req.params.date;
-//     console.log(xdate);
-
-//     Images.find({ "date": { "$gt": xdate } }, '_id', function (err, photoID) {
-//         if (err) {
-//             console.log(err);
-//             return handleError(err);
-//         }
-//         else {
-//         //    res.send(photoID);
-
-//             res.json(photoID)
-//         }
-//     });
-
-// });
-
-// //get the photo of an id
-// app.get("/photo/:id", async(req, res) => {
- 
-//     var id = req.params.id;
-
-//     Images.findById(id, function (err, record) {
-
-//         if(err){
-//             res.send(`failed`);
-//             return;
-//         }
-
-//         img = record.image;
-
-//         res.writeHead(200, {
-//             'Content-Type': 'image/png',
-//             'Content-Length': img.length
-//           }).end(img);
-
-//     });
-// });
-
-
 
 
 //logout
