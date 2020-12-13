@@ -4,8 +4,7 @@ const mqttConfig = {
     "port": 9001,
     "url": '',
     "topic": {
-      "subscribe": "candid",
-      "publish": "direction"
+      "subscribe": "config"
     }
   }
   // Create a client instance
@@ -21,15 +20,6 @@ const mqttConfig = {
 
   // called when a message arrives
   client.onMessageArrived = function (message) {
-
-    //get images after x
-    get_images(load_date)
-    //change the load date
-    load_date = new Date().getTime() / 1000
-
-    //console.log(message);
-
-    console.log('photo incomming')
-
+    location.reload();
   };
   
