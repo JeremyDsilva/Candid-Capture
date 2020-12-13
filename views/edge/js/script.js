@@ -10,15 +10,25 @@ $(document).ready(function () {
    */
 
 
-   // goes within call back of ajax call
+  // goes within call back of ajax call
 
   // start time 
-  if (true){
-    faceDetectionStartup();
-    phraseDetectionStartup();
+  if (true) {
+
+    try {
+
+      faceDetectionStartup();
+    } catch (error) {
+
+    }
+    try {
+      phraseDetectionStartup();
+    } catch (error) {
+
+    }
     // refresh page when end time 
-  } else  {
-  // start time refresh the page
+  } else {
+    // start time refresh the page
   }
 
 
@@ -26,7 +36,7 @@ $(document).ready(function () {
 
 function postImage() {
   console.log('Posting image...');
-  $.post('http://localHost:3000/image', canvas.toDataURL('image/png'));
+  $.post('/image', canvas.toDataURL('image/png'));
 }
 
 function faceDetectionStartup() {
@@ -51,7 +61,7 @@ function faceDetectionStartup() {
   ).then(() => {
     navigator.getWebcam = (navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-    if (navigator.mediaDevices.getUserMedia)
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
       navigator.mediaDevices.getUserMedia({ audio: false, video: true })
         .then((stream) => video.srcObject = stream)
         .catch((e) => console.log);
@@ -156,7 +166,7 @@ function phraseDetectionStartup() {
 }
 
 /**
- * 
- *  Configure mqtt to refresh when message is recieved  
- * 
+ *
+ *  Configure mqtt to refresh when message is recieved
+ *
  */
