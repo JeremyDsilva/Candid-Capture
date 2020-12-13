@@ -144,7 +144,7 @@ function faceDetectionStartup() {
         context.drawImage(video, 0, 0, width, height);
 
         for (let i = 0; i < detections.length; ++i)
-          if (detections[i].expressions.happy > 0.8) {
+          if (detections[i].expressions.happy > 0.7) {
             postImage();
             break;
           }
