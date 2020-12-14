@@ -1,7 +1,6 @@
 # Candid-Capture
 
-- The "Flutter" branch has all the Flutter related code.
-- The Edge Device runs on the browser and serverd by application server
-- The Node Red files are in the "Node-red" folder of the "Master" branch.
+- We have divided our code into different branches to seperate the different parts of our system
+- Except for Flutter and the master the other branches are only to have a look at and aren't necessarily functional
 
-Ignore all other branches 
+Ignore the master branch
