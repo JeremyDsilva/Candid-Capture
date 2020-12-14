@@ -1,0 +1,1 @@
+[{"id":"7c498a2b.255984","type":"function","z":"18af0a90.6ffe55","name":"function","func":"msg.params = [\n    {\n  \"context_uri\": msg.payload.song,\n  \"offset\": {\n    \"position\": Math.floor(Math.random() * 77)\n  },\n  \"position_ms\": 0\n}\n    ];\nreturn msg;\n\n","outputs":1,"noerr":0,"initialize":"","finalize":"","x":520,"y":120,"wires":[["584d8790.71b578"]]}]
