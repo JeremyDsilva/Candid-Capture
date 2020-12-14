@@ -67,6 +67,18 @@ router.post('/config', function (req, res, next) {
         //add new config
         console.log(req.body.cam_state);
 
+        if (body.cam_freq || body.cam_freq == null)
+            body.cam_freq = 2;
+
+        if (body.cam_state || body.cam_state == null)
+            body.cam_state = true;
+
+        if (body.start_time || body.start_time == null)
+            body.start_time = 0;
+
+        if (body.end_time || body.end_time == null)
+            body.end_time = 24 * 60;
+
         Config({
             cam_state: req.body.cam_state,
             cam_freq: req.body.cam_freq,
