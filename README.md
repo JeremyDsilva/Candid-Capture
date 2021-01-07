@@ -57,5 +57,13 @@ The following flow diagram outlines how the edge device, server, browser and flu
 ![handling images](https://user-images.githubusercontent.com/50911194/103928414-dc37fe00-512c-11eb-8374-dbfa7c2b59c8.PNG)
 
 
+## License
 
+
+## Authors
+Project was build was part of our University Internet of Things course at AUS by
+
+- [Jeremy Dsilva](https://github.com/JeremyDsilva)  
+- [Dhriti Adyanthaya](https://github.com/dhritix1999)  
+- [Shaham Kampala](https://github.com/skampala1) 
  
