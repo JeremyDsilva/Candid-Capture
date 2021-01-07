@@ -1,4 +1,4 @@
-# ![Candid Capture](views/assets/img/avatars/logo.png)
+# ![Candid Capture](https://user-images.githubusercontent.com/50911194/103921555-b4906800-5123-11eb-9f51-7cbc69a807b1.png)
 
 This IOT-based smart home appliance uses a combination of your environment, audio and emotion to determine when to capture candid photos to capture your and your family’s special moments. This app is a great appliance for families to capture fun moments between family members or improve your mood by playing happy songs when you are sad.
 
@@ -9,6 +9,7 @@ This IOT-based smart home appliance uses a combination of your environment, audi
 * NodeJs
 * TensorFlow
 * Node-red
+* MongoDB
 * Flutter
 
 # Getting started
