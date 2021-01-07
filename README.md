@@ -30,7 +30,7 @@ This IOT-based smart home appliance uses a combination of your environment, audi
 
 ## Using Spotify node-red integration
 - To use the Spotify tool in node red you will have to make an account on Spotify.
-- After creating your account follow this ([tutorial](https://developer.spotify.com/dashboard/)), Spotify Developers to login and create an App to get an ID and Secret.
+- After creating your account go to [Spotify Developers](https://developer.spotify.com/dashboard/) to login and create an App to get an ID and Secret.
 - Enter your Client ID and Client Secret in the Spotify Node.
 - This is the scope to [Start/Resume a Users Playback](https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/); user-modify-playback-state.
 - After autherizing you Select the API "play" and you are done with setting up the Spotify node.
