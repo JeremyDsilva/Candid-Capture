@@ -12,6 +12,7 @@ This IOT-based smart home appliance uses a combination of your environment, audi
 * MongoDB
 * Flutter
 
+
 # Getting started
 
 - Clone this repo
@@ -23,11 +24,13 @@ This IOT-based smart home appliance uses a combination of your environment, audi
 - Follow this ([tutorial](https://flutter.dev/docs/get-started/install)) and install Flutter locally on your machine.
 - Run the Flutter app from the `flutter` branch.
 
+
 ## Dependencies
 
 - [express](https://github.com/expressjs/express) - The server for handling and routing HTTP requests
 - [mongoose](https://github.com/Automattic/mongoose) - For modeling and mapping MongoDB data to javascript 
 - [mqtt](https://github.com/mqttjs/MQTT.js) - For the MQTT protocol, written in JavaScript for node.js and the browser.
+
 
 ## Using node-red's Spotify integration
 - To use the Spotify tool in node red you will have to make an account on Spotify.
@@ -38,4 +41,21 @@ This IOT-based smart home appliance uses a combination of your environment, audi
 - Please refer to the Spotify's [Web API](https://developer.spotify.com/documentation/web-api/reference/) reference to know about utilizing other API's
  <b> Please note: to use the 'Play' functionaliy you must have Spotify premium activated </b>
  
+ 
+# Overall Architecture
+ 
+## Edge-device functionalities
+The following diagram shows the functionalities of the browser which acts as our edge device.
+https://user-images.githubusercontent.com/50911194/103926728-5ca92f80-512a-11eb-8ade-c84345a05095.PNG
+
+## Configuration
+Users can modify the various settings of their home system such as; <b> Camera on/off, camera timmings, camera frequency, spotify album</b>. The following is the pictorial representation of changing the configuration.
+https://user-images.githubusercontent.com/50911194/103927893-194fc080-512c-11eb-86a3-efd7f5faffc2.PNG
+
+## Handling Images
+The following flow diagram outlines how the edge device, server, browser and flutter are integrated when the appropriate picture is taken.
+https://user-images.githubusercontent.com/50911194/103928414-dc37fe00-512c-11eb-8374-dbfa7c2b59c8.PNG
+
+
+
  
