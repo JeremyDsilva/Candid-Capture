@@ -52,7 +52,7 @@ The following flow diagram outlines how the edge device, server, browser and flu
 
 
 ## License
-
+MIT
 
 ## Authors
 Project was build was part of our University Internet of Things course at AUS by
