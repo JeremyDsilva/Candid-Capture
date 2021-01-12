@@ -43,7 +43,7 @@ protocol websockets
 ## Candid Capture flutter app
 
 The flutter app has two pages, one to show the pictures taken of the user and the other to deal with the configurations/Settings.
-![Flutter App](https://user-images.githubusercontent.com/50911194/104340684-63f98000-5512-11eb-85fb-87a84b53db50.PNG)
+![Flutter App](https://user-images.githubusercontent.com/50911194/104341806-a2dc0580-5513-11eb-8418-8f53965c6403.PNG)
 
 
 
