@@ -36,6 +36,18 @@ protocol websockets
 ```
 # Views
 
+## Smart home edge device running on Browser
+
+## Candid Capture Website
+
+## Candid Capture flutter app
+
+The flutter app has two pages, one to show the pictures taken of the user and the other to deal with the configurations/Settings.
+![Flutter App](https://user-images.githubusercontent.com/50911194/104340684-63f98000-5512-11eb-85fb-87a84b53db50.PNG)
+
+
+
+
 # Overall Architecture
  
 ## Edge-device functionalities
