@@ -37,7 +37,7 @@ protocol websockets
 # Views
 
 ## Smart home edge device running on Browser
-Our smart home application runs on the Chrome Browser where it does facial emotion detection, voice command and blur detection.
+Our smart home application runs on the Chrome Browser where it does facial emotion detection, take picture with voice command and blur detection.
 
 ![Edge Device](https://user-images.githubusercontent.com/50911194/104375042-30335000-553c-11eb-9913-9c9d979d7867.PNG)
 
@@ -45,11 +45,11 @@ Our smart home application runs on the Chrome Browser where it does facial emoti
 
 The candid capture website allows users to login and view their photos.
 
-https://user-images.githubusercontent.com/50911194/104375385-bea7d180-553c-11eb-90fe-f3875a0af69f.PNG
+![website](https://user-images.githubusercontent.com/50911194/104375385-bea7d180-553c-11eb-90fe-f3875a0af69f.PNG)
 
 ## Candid Capture flutter app
 
-The flutter app has two pages, one to show the pictures taken of the user and the other to deal with the configurations/Settings.
+The flutter app has two activities, one to show the pictures taken of the user and the other to deal with the configurations/Settings.
 
 ![Flutter App](https://user-images.githubusercontent.com/50911194/104341806-a2dc0580-5513-11eb-8418-8f53965c6403.PNG)
 
